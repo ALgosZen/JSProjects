@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch text javascript</title>
+</head>
+<h1>Fetch a poem</h1>
+<p id="tagore" />
+<body>
+    <script>
+        catchPoem()
+        .then( response => {
+            document.getElementById('tagore').innerText = tagore;
+            console.log("fetched tagore poem!!!")
+        })
+        .catch(error => {
+            console.log("failed to read poem");
+            console.error(error);
+        });
+
+
+        async function catchPoem(){
+            const response = await fetch('tagore.txt');
+            return await response.text();
+        }
+
+    </script>
+    
+</body>
+</html>

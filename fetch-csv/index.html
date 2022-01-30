@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart java script library charting csv table data </title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>GIS Temperatures data from NASA</h1>
+    <canvas id="myChart" width="400" height="400" ></canvas>
+    <script>
+       window.addEventListener('load' , drawChart);
+
+        async function drawChart(){
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const globalTemps = await getData();
+            const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                    labels: globalTemps.years ,
+                    datasets: [{
+                        label: '# Global Temperatures in °C',
+                        data: globalTemps.gTemp,
+                        fill: false,
+                        backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                        borderColor: ['rgba(255, 99, 132, 1)'],
+                        borderWidth: 1
+                    },
+                    {
+                        label: '# Northern Hemisphere Temp in °C',
+                        data: globalTemps.northernTemp,
+                        fill: false,
+                        backgroundColor: ['rgba(99, 132, 255, 0.2)'],
+                        borderColor: ['rgba(99, 132, 255, 1)'],
+                        borderWidth: 1
+                    },
+                    {
+                        label: '# Southern Hemisphere Temp in °C',
+                        data: globalTemps.southerntemp,
+                        fill: false,
+                        backgroundColor: ['rgba(99, 255, 132, 0.2)'],
+                        borderColor: ['rgba(99, 255, 132, 1)'],
+                        borderWidth: 1
+                    }
+                
+                
+                ]
+                },
+                options:{}
+            });
+        }
+
+
+
+
+        getData();
+         // zonal annual mean data from: https://data.giss.nasa.gov/gistemp/
+        async function getData(){
+            const response = await fetch('ZonAnn.Ts+dSST.csv');
+            const data = await response.text();
+            const years = [];
+            const gTemp = [];
+            const northernTemp = [];
+            const southerntemp = [];
+            const rows = data.split('\n').slice(1);
+            
+            rows.forEach(row  =>{
+                const cols = row.split(',');
+                years.push(cols[0]);
+                gTemp.push(parseFloat(cols[1])+14);
+                northernTemp.push(parseFloat(cols[2])+14);
+                southerntemp.push(parseFloat(cols[3])+14);
+            });
+         //   console.log(years,temps);
+            return {years, gTemp, northernTemp, southerntemp};
+        }
+        
+         
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding Train Data And APIs</title>
+</head>
+<body>
+    <h1>Live Server go live</h1>
+    <img src="" id="rainbow" width="480"/>
+    <script>
+        console.log("fetch rainbow");
+        fetch('rainbow.jpg').then( response => {
+            return response.blob();
+        
+        }).then(blob => {
+            console.log(blob);
+            document.getElementById('rainbow').src = URL.createObjectURL(blob);
+        })
+        .catch(error => {
+            console.log('error!!!!!')
+            console.error(error);
+        });
+        
+    </script>
+</body>
+</html>

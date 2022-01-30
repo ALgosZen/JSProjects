@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>fetch few rainbows</h1>
+    <script>
+        const rainbow_images = [
+            'images/unsplash1.jpeg',
+            'images/unsplash2.jpeg',
+            'images/unsplash3.jpeg'
+        ];
+
+        catchRainbows(rainbow_images)
+        .then(response => {
+            console.log('fetching images')
+        }).catch(error => {
+            console.log('error fetching images');
+            console.error(error);
+        });
+
+
+        async function catchRainbows(rainbow_images){
+            for (let image of rainbow_images){
+                const response = await fetch(image);
+                const blob = await response.blob();
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(blob);
+                img.width = '200';
+                document.body.append(img);
+            }
+
+
+
+        }
+
+    </script>
+</body>
+</html>
